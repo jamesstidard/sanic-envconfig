@@ -14,7 +14,7 @@ This extension takes care of correctly casting the common types `str`, `bool`, `
 
 ## Installation
 ```bash
-$ pip install sanic_rethinkdb
+$ pip install sanic_envconfig
 ```
 
 ## Basic usage
