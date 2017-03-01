@@ -49,3 +49,8 @@ def parse_int(value):
 @EnvConfig.parse(float)
 def parse_float(value):
     return float(value)
+
+
+@EnvConfig.parse(list)
+def parse_list(value):
+    return value.split(',')
