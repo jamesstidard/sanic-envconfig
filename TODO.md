@@ -1,2 +1,3 @@
 - [ ] `raise` when no value in default or enviroment (allow use of `typing.Optional` to supress)
 - [ ] tests
+- [ ] parse and cast `list` items e.g. `List[float]`
