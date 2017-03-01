@@ -10,5 +10,4 @@ setup(
     author_email='jamesstidard@gmail.com',
     description='Pull environment variables into your sanic config class.',
     keywords='sanic config environment variables extension',
-    platforms=['any'],
-    install_requires=['rethinkdb'])
+    platforms=['any'])
