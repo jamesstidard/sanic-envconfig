@@ -21,7 +21,7 @@ $ pip install sanic_envconfig
 ```bash
 DEBUG: false
 DB_URL: postgresql://localhost:5433
-DB_PORT: 4
+WORKERS: 4
 ```
 ```python
 from sanic import Sanic
