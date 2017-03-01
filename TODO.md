@@ -1,1 +1,2 @@
-- [ ] Raise when no value in default or enviroment (allow use of `typing.Optional` to supress)
+- [ ] `raise` when no value in default or enviroment (allow use of `typing.Optional` to supress)
+- [ ] tests
