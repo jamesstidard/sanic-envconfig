@@ -55,16 +55,17 @@ THEME: blue
 from sanic_envconfig import EnvConfig
 from enum import Enum
 
+
 class Color(Enum):
     RED = 0
     BLUE = 1
 
-class Config(EnvConfig):
-    THEME: Color = None
-
 @EnvConfig.parse(Color)
 def parse_color(value):
     return Color[value.upper()]
+
+class Config(EnvConfig):
+    THEME: Color = None
 
 print(Config.THEME)  # <Color.BLUE: 0>
 type(Config.THEME)  # <enum 'Color'>
