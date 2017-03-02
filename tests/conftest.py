@@ -15,9 +15,10 @@ class ConfigType(Enum):
 @pytest.fixture(params=[ConfigType.CLASS, ConfigType.INSTANCE])
 def config(request):
     class C(EnvConfig):
-        ATTRIBUTE_1: int = 1
-        ATTRIBUTE_2: int = 2
-        ATTRIBUTE_3: int = 3
+        ATTRIBUTE_STR: str = 'default_str'
+        ATTRIBUTE_INT: int = 1
+        ATTRIBUTE_FLOAT: float = 1.5
+        ATTRIBUTE_BOOL: bool = True
 
     if request.param == ConfigType.CLASS:
         return C
