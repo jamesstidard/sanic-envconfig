@@ -1,18 +1,10 @@
 import os
 import pytest
 
-from enum import Enum
-from functools import partial
-
 from sanic_envconfig import EnvConfig
 
 
-class ConfigType(Enum):
-    INSTANCE = 0
-    CLASS = 1
-
-
-@pytest.fixture(params=[ConfigType.CLASS, ConfigType.INSTANCE])
+@pytest.fixture()
 def config(request):
     class C(EnvConfig):
         ATTRIBUTE_STR: str = 'default_str'
@@ -20,17 +12,20 @@ def config(request):
         ATTRIBUTE_FLOAT: float = 1.5
         ATTRIBUTE_BOOL: bool = True
 
-    if request.param == ConfigType.CLASS:
-        return C
-    else:
-        return C()
+    return C
 
 
 @pytest.fixture()
 def mock_env(mocker):
-    return partial(mocker.patch.dict, in_dict=os.environ, clear=True)
+    def env(dictionary):
+        """ 
+        Continence: Allows environment vars to be with a dict without
+        Need to unwrap.
+        """
+        return mocker.patch.dict(in_dict=os.environ, clear=True, **dictionary)
+    return env
 
 
 @pytest.fixture()
 def sentinel():
-    return object()
+    return type('Sentinel', (), {})()
