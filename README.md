@@ -10,7 +10,7 @@ The values set in your class will be the default values, overridden when there i
 
 Casting of the environment variables is decided by looking at the type hints declared on config class. If no hint has been declared, the type of the default value will be used. When a default value is also not provided the variable will be returned as whatever type it exists in `os.environ` (most probably a `str`).
 
-This extension takes care of correctly casting the common types `str`, `bool`, `int`, `float` and `list`. Though, `sanic_envconfig.EnvConfig` can be extended for custom types. Additionally, the supplied casting can be overridden if desired.
+This extension takes care of correctly casting the common types `str`, `bool`, `int` and `float`. Though, `sanic_envconfig.EnvConfig` can be extended for custom types. Additionally, the supplied casting can be overridden if desired.
 
 ## Installation
 ```bash
