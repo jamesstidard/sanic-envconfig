@@ -59,6 +59,11 @@ class EnvConfig(metaclass=EnvConfigMeta):
         return decorator
 
 
+@EnvConfig.parse(str)
+def parse_str(value):
+    return str(value)
+
+
 @EnvConfig.parse(bool)
 def parse_bool(value):
     return value.lower() in ('true', 'yes', '1', 'on')
