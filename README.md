@@ -1,4 +1,6 @@
 # sanic-envconfig
+[![Python Versions](https://img.shields.io/pypi/pyversions/sanic-envconfig.svg)](https://pypi.python.org/pypi/sanic-envconfig)
+[![PyPI Version](https://img.shields.io/pypi/v/sanic-envconfig.svg)](https://pypi.python.org/pypi/sanic-envconfig)
 [![Build Status](https://travis-ci.org/jamesstidard/sanic-envconfig.svg?branch=master)](https://travis-ci.org/jamesstidard/sanic-envconfig)
 [![Coverage Status](https://coveralls.io/repos/github/jamesstidard/sanic-envconfig/badge.svg)](https://coveralls.io/github/jamesstidard/sanic-envconfig)
 
