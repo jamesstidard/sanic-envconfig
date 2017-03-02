@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/jamesstidard/sanic-envconfig.svg?branch=master)](https://travis-ci.org/jamesstidard/sanic-envconfig)
 [![Coverage Status](https://coveralls.io/repos/github/jamesstidard/sanic-envconfig/badge.svg)](https://coveralls.io/github/jamesstidard/sanic-envconfig)
 
-This extension helps you bring environment variables into your Sanic config classes.
+This extension helps you bring environment variables into your Sanic config.
 
 The extension also leverages type hints to correctly cast environment variables to the appropriate type. This can also be overridden and extended for your own types.
 
@@ -18,7 +18,7 @@ Casting of the environment variables is decided by looking at the type hints dec
 This extension takes care of correctly casting the common types `str`, `bool`, `int` and `float`. Though, `sanic_envconfig.EnvConfig` can be extended for custom types. Additionally, the supplied casting can be overridden if desired.
 
 ## Just Sanic?
-The excision, for the moment, is generic enough where it could be used in another context. Though, future releases may more tightly couple it with Sanic.
+The extension, for the moment, is generic enough where it could be used in another context. Though, future releases may more tightly couple it with Sanic.
 
 ## Installation
 ```bash
