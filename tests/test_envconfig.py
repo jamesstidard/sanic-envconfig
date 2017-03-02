@@ -35,3 +35,9 @@ def test_env_override(config, mock_env, attribute, value_type, new_value_in, new
     mock_env(**{attribute: new_value_in})
     assert getattr(config, attribute) == new_value_out
     assert type(getattr(config, attribute)) == value_type
+
+
+def test_cant_parse(config, mock_env):
+    mock_env(ATTRIBUTE_INT='string')
+    with pytest.raises(AttributeError):
+        print(config.ATTRIBUTE_INT)
