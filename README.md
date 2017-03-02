@@ -15,6 +15,9 @@ Casting of the environment variables is decided by looking at the type hints dec
 
 This extension takes care of correctly casting the common types `str`, `bool`, `int` and `float`. Though, `sanic_envconfig.EnvConfig` can be extended for custom types. Additionally, the supplied casting can be overridden if desired.
 
+## Just Sanic?
+The excision, for the moment, is generic enough where it could be used in another context. Though, future releases may more tightly couple it with Sanic.
+
 ## Installation
 ```bash
 $ pip install sanic_envconfig
