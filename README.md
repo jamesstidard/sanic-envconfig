@@ -1,4 +1,6 @@
 # sanic-envconfig
+[![Build Status](https://travis-ci.org/jamesstidard/sanic-envconfig.svg?branch=master)](https://travis-ci.org/jamesstidard/sanic-envconfig)
+
 This extension helps you bring environment variables into your Sanic config classes.
 
 The extension also leverages type hints to correctly cast environment variables to the appropriate type. This can also be overridden and extended for your own types.
