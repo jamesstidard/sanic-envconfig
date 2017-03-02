@@ -2,53 +2,45 @@ import os
 import typing
 
 
-parsers = {}
+class EnvAttribute:
+    parsers = {}
 
+    def __init__(self, default=None, name=None, value_type=None):
+        self.name = name
+        self.type = value_type or type(default)
+        self.default = default
 
-class EnvConfigMeta(type):
-
-    def __getattribute__(self, name):
-        default_value = super().__getattribute__(name)
-
-        if name not in os.environ:
-            return default_value
-        else:
-            env_value = os.environ[name]
-            type_hints = typing.get_type_hints(self)
-            value_type = type_hints.get(name, type(default_value))
-
-            if value_type not in parsers:
-                return env_value
-            else:
+    def __get__(self, instance, owner):
+        if self.name in os.environ:
+            value = os.environ[self.name]
+            if self.type in self.parsers:
                 try:
-                    return parsers[value_type](env_value)
-                except Exception:
+                    return self.parsers[self.type](value)
+                except:
                     raise AttributeError(
-                        f'Could not parse "{env_value}" of type {type(env_value)} '
-                        f'as {value_type} using parser {parsers[value_type]}')
-
-
-class EnvConfig(metaclass=EnvConfigMeta):
-
-    def __getattribute__(self, name):
-        default_value = super().__getattribute__(name)
-
-        if name not in os.environ:
-            return default_value
-        else:
-            env_value = os.environ[name]
-            type_hints = typing.get_type_hints(self)
-            value_type = type_hints.get(name, type(default_value))
-
-            if value_type not in parsers:
-                return env_value
+                        f'Could not parse "{value}" of type {type(value)} as '
+                        f'{self.type} using parser {self.parsers[self.type]}')
             else:
-                try:
-                    return parsers[value_type](env_value)
-                except Exception:
-                    raise AttributeError(
-                        f'Could not parse "{env_value}" of type {type(env_value)} '
-                        f'as {value_type} using parser {parsers[value_type]}')
+                return value
+        else:
+            return self.default
+
+    def __set__(self, instance, value):
+        instance.__dict__[self.name] = value
+
+    def __set_name__(self, owner, name):
+        self.name = name
+        self.type = typing.get_type_hints(owner).get(name, self.type)
+
+
+class EnvConfig:
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        type_hints = typing.get_type_hints(cls)
+        for attr in dir(cls):
+            if not attr.startswith('_'):
+                setattr(cls, attr, EnvAttribute(getattr(cls, attr), attr, type_hints.get(attr, None)))
 
     @staticmethod
     def parse(type: type):
@@ -56,9 +48,8 @@ class EnvConfig(metaclass=EnvConfigMeta):
 
         :param type: property type to parse
         """
-
         def decorator(parser):
-            parsers[type] = parser
+            EnvAttribute.parsers[type] = parser
             return parser
 
         return decorator
