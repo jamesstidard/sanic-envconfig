@@ -5,7 +5,7 @@ python:
 - 'nightly'
 install:
 - pip install coveralls
-script: make test
+script: pytest tests
 notifications:
   email: false
 after_success: coveralls
