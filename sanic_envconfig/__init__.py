@@ -1,5 +1,5 @@
 import os
-import typing
+from typing import get_type_hints
 
 
 class EnvVar:
@@ -11,7 +11,7 @@ class EnvVar:
 
     def __set_name__(self, owner, name):
         if owner:
-            self.type = typing.get_type_hints(owner).get(name, type(self.default))
+            self.type = get_type_hints(owner).get(name, type(self.default))
         self.name = f'__{name}'
 
     def __get__(self, instance, owner):
@@ -47,9 +47,12 @@ class EnvConfig(metaclass=EnvConfigMeta):
 
     @staticmethod
     def parse(type: type):
-        """Create an environ parser from a decorated function.
+        """
+        Create an environ parser from a decorated function.
     
-        :param type: property type to parse
+        Args:
+            type: the type the decorated function will be responsible
+                for parsing a environment variable to.
         """
 
         def decorator(parser):
@@ -59,21 +62,16 @@ class EnvConfig(metaclass=EnvConfigMeta):
         return decorator
 
 
-@EnvConfig.parse(str)
-def parse_str(value):
-    return str(value)
-
-
 @EnvConfig.parse(bool)
-def parse_bool(value):
+def parse_bool(value: str) -> bool:
     return value.lower() in ('true', 'yes', '1', 'on')
 
 
 @EnvConfig.parse(int)
-def parse_int(value):
+def parse_int(value: str) -> int:
     return int(value)
 
 
 @EnvConfig.parse(float)
-def parse_float(value):
+def parse_float(value: str) -> float:
     return float(value)
