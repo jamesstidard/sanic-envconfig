@@ -48,7 +48,7 @@ class EnvConfig(metaclass=EnvConfigMeta):
     @staticmethod
     def parse(type: type):
         """
-        Create an environ parser from a decorated function.
+        Register an environ parser for a attribute type.
     
         Args:
             type: the type the decorated function will be responsible
