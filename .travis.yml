@@ -1,0 +1,12 @@
+language: python
+python:
+- '3.6'
+- '3.6-dev'
+- 'nightly'
+install:
+- make init
+- pip install coveralls
+script: make test
+notifications:
+  email: false
+after_success: coveralls
