@@ -11,4 +11,4 @@ setup(
     description='Pull environment variables into your sanic config class.',
     keywords='sanic config environment variables extension',
     platforms=['any'],
-    tests_require=['pytest', 'pytest-mock'])
+    tests_require=['pytest', 'pytest-mock', 'pytest-coverage'])
