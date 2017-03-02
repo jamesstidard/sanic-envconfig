@@ -29,10 +29,6 @@ class EnvVar:
         else:
             return getattr(instance, self.name, self.default)
 
-    def __set__(self, instance, value):
-        self.type = typing.get_type_hints(instance).get(self.name, type(value))
-        setattr(instance, self.name, value)
-
 
 class EnvConfigMeta(type):
 
