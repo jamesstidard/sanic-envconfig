@@ -1,11 +1,14 @@
 import pytest
 
 
-def test_get_attributes(config):
-    assert config.ATTRIBUTE_STR == 'default_str'
-    assert config.ATTRIBUTE_INT == 1
-    assert config.ATTRIBUTE_FLOAT == 1.5
-    assert config.ATTRIBUTE_BOOL
+@pytest.mark.parametrize("attribute, value", [
+    ('ATTRIBUTE_STR', 'default_str'),
+    ('ATTRIBUTE_INT', 1),
+    ('ATTRIBUTE_FLOAT', 1.5),
+    ('ATTRIBUTE_BOOL', True),
+])
+def test_get_attributes(config, attribute, value):
+    assert getattr(config, attribute) == value
 
 
 def test_set_attribute(config, sentinel):
