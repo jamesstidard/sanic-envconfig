@@ -34,13 +34,19 @@ class EnvConfigMeta(type):
 
     def __new__(mcs, name, bases, attrs):
         wrapped = {a: EnvVar(v) for a, v in attrs.items()
-                   if not a.startswith('_')
-                   and not a == 'parse'}
+                   if mcs._should_wrap(a, v)}
         return super().__new__(mcs, name, bases, {**attrs, **wrapped})
 
     def __setattr__(self, name, value):
-        value = EnvVar(value, owner=self, name=name)
+        if self._should_wrap(name, value):
+            value = EnvVar(value, owner=self, name=name)
         super().__setattr__(name, value)
+
+    @staticmethod
+    def _should_wrap(name, value):
+        return (name.isupper()
+            and not name.startswith('_')
+            and not isinstance(value, EnvVar))
 
 
 class EnvConfig(metaclass=EnvConfigMeta):

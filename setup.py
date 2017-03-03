@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='sanic_envconfig',
-    version='0.2.1',
+    version='0.2.2',
     packages=['sanic_envconfig'],
     url='https://github.com/jamesstidard/sanic-envconfig',
     license='MIT',
