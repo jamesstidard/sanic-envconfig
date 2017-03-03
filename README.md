@@ -61,8 +61,8 @@ To override or extend the casting system, `sanic_envconfig.EnvConfig` provides a
 THEME: blue
 ```
 ```python
-from sanic_envconfig import EnvConfig
 from enum import Enum
+from sanic_envconfig import EnvConfig
 
 
 class Color(Enum):
