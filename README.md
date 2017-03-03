@@ -3,6 +3,7 @@
 [![PyPI Version](https://img.shields.io/pypi/v/sanic-envconfig.svg)](https://pypi.python.org/pypi/sanic-envconfig)
 [![Build Status](https://travis-ci.org/jamesstidard/sanic-envconfig.svg?branch=master)](https://travis-ci.org/jamesstidard/sanic-envconfig)
 [![Coverage Status](https://coveralls.io/repos/github/jamesstidard/sanic-envconfig/badge.svg)](https://coveralls.io/github/jamesstidard/sanic-envconfig)
+[![Licence](http://img.shields.io/:license-mit-blue.svg)](https://github.com/jamesstidard/sanic-envconfig/blob/master/LICENCE.txt)
 
 This extension helps you bring environment variables into your Sanic config.
 
