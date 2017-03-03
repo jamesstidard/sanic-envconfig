@@ -9,8 +9,8 @@ This extension helps you bring environment variables into your Sanic config.
 
 The extension also leverages type hints to correctly cast environment variables to the appropriate type. This can also be overridden and extended for your own types.
 
-## How it works
-Define your config class and subclass `sanic_envconfig.EnvConfig`. To not pollute your config, only those variables defined in your config class will pulled from your environment variables.
+## How it Works
+Define your config class and subclass `sanic_envconfig.EnvConfig`. To not pollute your config, only those variables defined (and in uppercase) in your config class will pulled from your environment variables.
 
 The values set in your class will be the default values, overridden when there is a environment variable with the same name available.
 
@@ -26,7 +26,7 @@ The extension, for the moment, is generic enough where it could be used in anoth
 $ pip install sanic_envconfig
 ```
 
-## Basic usage
+## Basic Usage
 ```bash
 DEBUG: false
 DB_URL: postgresql://localhost:5433
