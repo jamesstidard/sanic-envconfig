@@ -51,5 +51,5 @@ def test_env_override(config, mock_env, attribute, value_type, new_value_in, new
 
 def test_cant_parse(config, mock_env):
     mock_env({'ATTRIBUTE_INT': 'string'})
-    with pytest.raises(AttributeError):
+    with pytest.raises(AttributeError()):
         print(config.ATTRIBUTE_INT)
