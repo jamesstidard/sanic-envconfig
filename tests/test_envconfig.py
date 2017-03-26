@@ -82,3 +82,9 @@ def test_args_quoted(config, mock_args):
     something_in_quotes = 'something in quotes'
     mock_args(f'--attribute-str "{something_in_quotes}"')
     assert config.ATTRIBUTE_STR == something_in_quotes
+
+
+def test_normal_property_set(config, mock_env, sentinel):
+    mock_env({'normal': 'oh no'})
+    config.normal = sentinel
+    assert config.normal is sentinel
