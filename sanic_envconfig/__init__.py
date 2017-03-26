@@ -1,4 +1,7 @@
 import os
+import sys
+import shlex
+
 from typing import get_type_hints
 
 
@@ -15,19 +18,36 @@ class EnvVar:
         self.name = f'__{name}'
 
     def __get__(self, instance, owner):
-        if self.name[2:] in os.environ:
-            value = os.environ[self.name[2:]]
-            if self.type in self.parsers:
-                try:
-                    return self.parsers[self.type](value)
-                except:
-                    raise AttributeError(
-                        f'Could not parse "{value}" of type {type(value)} as '
-                        f'{self.type} using parser {self.parsers[self.type]}')
-            else:
-                return value
+        cli_name = self.name.replace('_', '-').lower()
+        env_name = self.name[2:]
+
+        try:
+            index = sys.argv.index(cli_name)
+            value = sys.argv[index + 1]
+        except (ValueError, IndexError):
+            pass
         else:
-            return getattr(instance, self.name, self.default)
+            return self.__parse(value)
+
+        try:
+            value = os.environ[env_name]
+        except KeyError:
+            pass
+        else:
+            return self.__parse(value)
+
+        return getattr(instance, self.name, self.default)
+
+    def __parse(self, value):
+        if self.type not in self.parsers:
+            return value
+
+        try:
+            return self.parsers[self.type](value)
+        except:
+            raise AttributeError(
+                f'Could not parse "{value}" of type {type(value)} as '
+                f'{self.type} using parser {self.parsers[self.type]}')
 
 
 class EnvConfigMeta(type):

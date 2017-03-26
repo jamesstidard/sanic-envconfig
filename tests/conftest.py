@@ -1,4 +1,6 @@
 import os
+import sys
+import shlex
 import pytest
 
 from sanic_envconfig import EnvConfig
@@ -19,11 +21,23 @@ def config(request):
 def mock_env(mocker):
     def env(dictionary):
         """ 
-        Continence: Allows environment vars to be with a dict without
-        Need to unwrap.
+        Convenience: Allows environment vars to be 
+        set with a dict without need to unwrap.
         """
         return mocker.patch.dict(in_dict=os.environ, clear=True, **dictionary)
     return env
+
+
+@pytest.fixture()
+def mock_args(mocker):
+    def args(string):
+        """ 
+        Convenience: Allows commandline args to be 
+        set with a string.
+        """
+        argv = ['/mock/tests/conftest.py', *shlex.split(string)]
+        return mocker.patch.object(sys, 'argv', new=argv)
+    return args
 
 
 @pytest.fixture()

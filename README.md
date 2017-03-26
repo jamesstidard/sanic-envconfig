@@ -5,16 +5,16 @@
 [![Coverage Status](https://coveralls.io/repos/github/jamesstidard/sanic-envconfig/badge.svg)](https://coveralls.io/github/jamesstidard/sanic-envconfig)
 [![Licence](http://img.shields.io/:license-mit-blue.svg)](https://github.com/jamesstidard/sanic-envconfig/blob/master/LICENCE.txt)
 
-This extension helps you bring environment variables into your Sanic config.
+This extension helps you bring commandline & environment variables into your Sanic config.
 
-The extension also leverages type hints to correctly cast environment variables to the appropriate type. This can also be overridden and extended for your own types.
+The extension also leverages type hints to correctly cast those variables to the appropriate type. This can also be overridden and extended for your own types.
 
 ## How it Works
-Define your config class and subclass `sanic_envconfig.EnvConfig`. To not pollute your config, only those variables defined (and in uppercase) in your config class will pulled from your environment variables.
+Define your config class and subclass `sanic_envconfig.EnvConfig`. To not pollute your config, only those variables defined (and in uppercase) in your config class will pulled from your environment or commandline variables.
 
-The values set in your class will be the default values, overridden when there is a environment variable with the same name available.
+The values set in your class will be the default values, overridden when there is a environment variable or commandline argument with the same name available. The priority order being: `commandline arguments > enviroment variables > config`. 
 
-Casting of the environment variables is decided by looking at the type hints declared on config class. If no hint has been declared, the type of the default value will be used. When a default value is also not provided the variable will be returned as whatever type it exists in `os.environ` (most certainly a `str`).
+Casting of the commandline & environment variables is decided by looking at the type hints declared on config class. If no hint has been declared, the type of the default value will be used. When a default value is also not provided the variable will be returned as whatever type it exists in `os.environ` or `sys.argv` (most certainly a `str`).
 
 This extension takes care of correctly casting the common types `str`, `bool`, `int` and `float`. Though, `sanic_envconfig.EnvConfig` can be extended for custom types. Additionally, the supplied casting can be overridden if desired.
 
@@ -26,13 +26,16 @@ The extension, for the moment, is generic enough where it could be used in anoth
 $ pip install sanic_envconfig
 ```
 
-## Basic Usage
+## Example Usage
 ```bash
 DEBUG: false
-DB_URL: postgresql://localhost:5433
+DB_URL: postgresql://localhost:5433/environ
 WORKERS: 4
+
+$ python example.py --db-url "postgresql://localhost:5433/commandline"
 ```
 ```python
+# example.py
 from sanic import Sanic
 from sanic_envconfig import EnvConfig
 
@@ -48,7 +51,7 @@ app.config.from_object(Config)
 print(app.config.DEBUG)  # False
 type(app.config.DEBUG)  # <class 'bool'>
 
-print(app.config.DB_URL)  # postgresql://localhost:5433
+print(app.config.DB_URL)  # postgresql://localhost:5433/commandline
 type(app.config.DB_URL)  # <class 'str'>
 
 print(app.config.WORKERS)  # 4

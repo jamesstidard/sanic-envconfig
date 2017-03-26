@@ -53,3 +53,32 @@ def test_cant_parse(config, mock_env):
     mock_env({'ATTRIBUTE_INT': 'string'})
     with pytest.raises(AttributeError):
         print(config.ATTRIBUTE_INT)
+
+
+def test_default_not_parsed(config):
+    @config.parse(bool)
+    def stay_out():
+        assert False
+
+    print(config.ATTRIBUTE_BOOL)
+
+
+def test_cant_access_undefined_var(config, mock_args, mock_env):
+    mock_args(f'--not-on-config "oh no"')
+    mock_env({'NOT_ON_CONFIG': 'oh no'})
+    with pytest.raises(AttributeError):
+        print(config.NOT_ON_CONFIG)
+
+
+def test_args_override_env(config, mock_args, mock_env):
+    correct, incorrect = 'correct', 'incorrect'
+    mock_env({'ATTRIBUTE_STR': incorrect})
+    assert config.ATTRIBUTE_STR == incorrect
+    mock_args(f'--attribute-str {correct}')
+    assert config.ATTRIBUTE_STR == correct
+
+
+def test_args_quoted(config, mock_args):
+    something_in_quotes = 'something in quotes'
+    mock_args(f'--attribute-str "{something_in_quotes}"')
+    assert config.ATTRIBUTE_STR == something_in_quotes
