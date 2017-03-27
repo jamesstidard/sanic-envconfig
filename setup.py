@@ -1,5 +1,8 @@
 from distutils.core import setup
 
+
+test_requirements = ['pytest', 'pytest-mock', 'pytest-cov']
+
 setup(
     name='sanic_envconfig',
     version='1.0.0',
@@ -11,7 +14,8 @@ setup(
     description='Pull environment and commandline variables into your sanic config class.',
     keywords='sanic config environment variables extension',
     platforms=['any'],
-    tests_require=['pytest', 'pytest-mock', 'pytest-cov'],
+    tests_require=test_requirements,
+    extras_require={'test': test_requirements},
     classifiers=(
         'Intended Audience :: Developers',
         'Natural Language :: English',
