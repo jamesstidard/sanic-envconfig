@@ -1,8 +1,7 @@
 import os
 import sys
-# import shlex
 
-from typing import get_type_hints
+from typing import get_type_hints, Type
 
 
 class EnvVar:
@@ -53,7 +52,8 @@ class EnvVar:
 class EnvConfigMeta(type):
 
     def __new__(mcs, name, bases, attrs):
-        wrapped = {a: EnvVar(v) for a, v in attrs.items()
+        wrapped = {a: EnvVar(v)
+                   for a, v in attrs.items()
                    if mcs._should_wrap(a, v)}
         return super().__new__(mcs, name, bases, {**attrs, **wrapped})
 
@@ -72,7 +72,7 @@ class EnvConfigMeta(type):
 class EnvConfig(metaclass=EnvConfigMeta):
 
     @staticmethod
-    def parse(type: type):
+    def parse(type: Type):
         """
         Register an environ parser for a attribute type.
     
