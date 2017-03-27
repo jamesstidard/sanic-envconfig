@@ -1,10 +1,7 @@
 from distutils.core import setup
 
 
-test_requirements = [
-    'pytest',
-    'pytest-mock',
-    'pytest-cov']
+test_requirements = ['pytest', 'pytest-mock', 'pytest-cov']
 
 setup(
     name='sanic_envconfig',
