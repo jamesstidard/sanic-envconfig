@@ -74,7 +74,10 @@ class EnvConfig(metaclass=EnvConfigMeta):
     @staticmethod
     def parse(type: Type):
         """
-        Register an environ parser for a attribute type.
+        Register a parser for a attribute type.
+        
+        Parsers will be used to parse `str` type objects from either
+        the commandline arguments or environment variables.
     
         Args:
             type: the type the decorated function will be responsible
