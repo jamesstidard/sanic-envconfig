@@ -1,9 +1,9 @@
 # sanic-envconfig
 [![Python Versions](https://img.shields.io/pypi/pyversions/sanic-envconfig.svg)](https://pypi.python.org/pypi/sanic-envconfig)
 [![PyPI Version](https://img.shields.io/pypi/v/sanic-envconfig.svg)](https://pypi.python.org/pypi/sanic-envconfig)
+[![Licence](http://img.shields.io/:license-mit-blue.svg)](https://github.com/jamesstidard/sanic-envconfig/blob/master/LICENCE.txt)
 [![Build Status](https://travis-ci.org/jamesstidard/sanic-envconfig.svg?branch=master)](https://travis-ci.org/jamesstidard/sanic-envconfig)
 [![Coverage Status](https://coveralls.io/repos/github/jamesstidard/sanic-envconfig/badge.svg)](https://coveralls.io/github/jamesstidard/sanic-envconfig)
-[![Licence](http://img.shields.io/:license-mit-blue.svg)](https://github.com/jamesstidard/sanic-envconfig/blob/master/LICENCE.txt)
 
 This extension helps you bring commandline & environment variables into your Sanic config.
 
@@ -48,14 +48,9 @@ class Config(EnvConfig):
 app = Sanic(__name__)
 app.config.from_object(Config)
 
-print(app.config.DEBUG)  # False
-type(app.config.DEBUG)  # <class 'bool'>
-
-print(app.config.DB_URL)  # postgresql://localhost:5433/commandline
-type(app.config.DB_URL)  # <class 'str'>
-
-print(app.config.WORKERS)  # 4
-type(app.config.WORKERS)  # <class 'int'>
+app.config.DEBUG  # False
+app.config.DB_URL  # 'postgresql://localhost:5433/commandline'
+app.config.WORKERS  # 4
 ```
 
 ## Custom Casting
@@ -79,6 +74,5 @@ class Config(EnvConfig):
 def parse_color(value):
     return Color[value.upper()]
 
-print(Config.THEME)  # <Color.BLUE: 0>
-type(Config.THEME)  # <enum 'Color'>
+Config.THEME  # Color.BLUE
 ```
