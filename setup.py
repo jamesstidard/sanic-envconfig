@@ -1,5 +1,11 @@
+import re
+
 from distutils.core import setup
 
+
+with open('sanic_envconfig/__init__.py', 'r') as fd:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+                        fd.read(), re.MULTILINE).group(1)
 
 test_requirements = [
     'pytest',
@@ -8,7 +14,7 @@ test_requirements = [
 
 setup(
     name='sanic_envconfig',
-    version='1.0.0',
+    version=version,
     packages=['sanic_envconfig'],
     url='https://github.com/jamesstidard/sanic-envconfig',
     license='MIT',

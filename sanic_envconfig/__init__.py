@@ -3,6 +3,8 @@ import sys
 
 from typing import get_type_hints, Type
 
+__version__ = '1.0.0'
+
 
 class EnvVar:
     parsers = {}
