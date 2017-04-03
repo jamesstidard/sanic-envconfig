@@ -3,17 +3,17 @@ import sys
 
 from typing import get_type_hints, Type
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 
 class EnvVar:
     parsers = {}
 
-    def __init__(self, default, *, owner=None, name=None):
+    def __init__(self, default, *, owner=None, name: str=None):
         self.default = default
         self.__set_name__(owner, name)
 
-    def __set_name__(self, owner, name):
+    def __set_name__(self, owner, name: str):
         if owner:
             self.type = get_type_hints(owner).get(name, type(self.default))
         self.name = f'__{name}'
@@ -95,7 +95,7 @@ class EnvConfig(metaclass=EnvConfigMeta):
 
 @EnvConfig.parse(bool)
 def parse_bool(value: str) -> bool:
-    return value.lower() in ('true', 'yes', '1', 'on')
+    return value.lower() in ('true', 'y', 'yes', '1', 'on')
 
 
 @EnvConfig.parse(int)
