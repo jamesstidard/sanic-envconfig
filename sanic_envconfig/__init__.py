@@ -48,7 +48,8 @@ class EnvVar:
         except:
             raise AttributeError(
                 f'Could not parse "{value}" of type {type(value)} as '
-                f'{self.type} using parser {self.parsers[self.type]}')
+                f'{self.type} using parser {self.parsers[self.type]}'
+            )
 
 
 class EnvConfigMeta(type):

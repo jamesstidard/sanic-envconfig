@@ -1,0 +1,13 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+
+[packages]
+sanic-envconfig = {editable = true,file = "file:///home/james/Development/James-Stidard/sanic-envconfig"}
+
+[requires]
+python_version = "3.6"
