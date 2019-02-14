@@ -1,6 +1,7 @@
 import os
-import sys
 import shlex
+import sys
+
 import pytest
 
 from sanic_envconfig import EnvConfig
@@ -43,3 +44,15 @@ def mock_args(mocker):
 @pytest.fixture()
 def sentinel():
     return type('Sentinel', (), {})()
+
+
+@pytest.fixture()
+def prefix_config(request):
+    class C(EnvConfig):
+        _ENV_PREFIX = 'PREFIX'
+        ATTRIBUTE_STR: str = 'default_str'
+        ATTRIBUTE_INT: int = 1
+        ATTRIBUTE_FLOAT: float = 1.5
+        ATTRIBUTE_BOOL: bool = True
+
+    return C

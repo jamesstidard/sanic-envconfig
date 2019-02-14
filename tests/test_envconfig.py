@@ -64,7 +64,7 @@ def test_default_not_parsed(config):
 
 
 def test_cant_access_undefined_var(config, mock_args, mock_env):
-    mock_args(f'--not-on-config "oh no"')
+    mock_args('--not-on-config "oh no"')
     mock_env({'NOT_ON_CONFIG': 'oh no'})
     with pytest.raises(AttributeError):
         print(config.NOT_ON_CONFIG)
@@ -88,3 +88,27 @@ def test_normal_property_set(config, mock_env, sentinel):
     mock_env({'normal': 'oh no'})
     config.normal = sentinel
     assert config.normal is sentinel
+
+
+@pytest.mark.parametrize("attribute, default, new", [
+    ('ATTRIBUTE_STR', 'default_str', 'new_str'),
+    ('ATTRIBUTE_INT', 1, 2),
+    ('ATTRIBUTE_FLOAT', 1.5, 5.0),
+    ('ATTRIBUTE_BOOL', True, False),
+])
+def test_get_prefixed_env(prefix_config, attribute, default, new, mock_env):
+    assert getattr(prefix_config, attribute) == default
+    mock_env({f'PREFIX_{attribute}': str(new)})
+    assert getattr(prefix_config, attribute) == new
+
+
+@pytest.mark.parametrize("attribute, default, new", [
+    ('ATTRIBUTE_STR', 'default_str', 'new_str'),
+    ('ATTRIBUTE_INT', 1, 2),
+    ('ATTRIBUTE_FLOAT', 1.5, 5.0),
+    ('ATTRIBUTE_BOOL', True, False),
+])
+def test_no_prefixed_env_used(prefix_config, attribute, default, new, mock_env):
+    assert getattr(prefix_config, attribute) == default
+    mock_env({attribute: str(new)})
+    assert getattr(prefix_config, attribute) == default

@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+pytest-mock = "*"
 
 [packages]
 sanic-envconfig = {editable = true,file = "file:///home/james/Development/James-Stidard/sanic-envconfig"}

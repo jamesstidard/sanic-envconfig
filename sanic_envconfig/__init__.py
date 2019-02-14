@@ -7,6 +7,7 @@ __version__ = '1.0.1'
 
 
 class EnvVar:
+    prefix = ''
     parsers = {}
 
     def __init__(self, default, *, owner=None, name: str=None):
@@ -20,7 +21,7 @@ class EnvVar:
 
     def __get__(self, instance, owner):
         cli_name = self.name.replace('_', '-').lower()
-        env_name = self.name[2:]
+        env_name = f'{self.prefix}{self.name[2:]}'
 
         try:
             index = sys.argv.index(cli_name)
@@ -55,14 +56,22 @@ class EnvVar:
 class EnvConfigMeta(type):
 
     def __new__(mcs, name, bases, attrs):
+        if '_ENV_PREFIX' in attrs:
+            EnvVar.prefix = f'{attrs["_ENV_PREFIX"]}_'
+
         wrapped = {a: EnvVar(v)
                    for a, v in attrs.items()
                    if mcs._should_wrap(a, v)}
+
         return super().__new__(mcs, name, bases, {**attrs, **wrapped})
 
     def __setattr__(self, name, value):
-        if self._should_wrap(name, value):
+        if name == '_ENV_PREFIX':
+            EnvVar.prefix = f'{value}_'
+
+        elif self._should_wrap(name, value):
             value = EnvVar(value, owner=self, name=name)
+
         super().__setattr__(name, value)
 
     @staticmethod
