@@ -3,7 +3,7 @@ import sys
 
 from typing import get_type_hints, Type
 
-__version__ = '1.2.0'
+__version__ = '1.2.1'
 
 
 class EnvVar:
