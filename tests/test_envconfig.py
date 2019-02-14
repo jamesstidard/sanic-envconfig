@@ -1,5 +1,7 @@
 import pytest
 
+from sanic_envconfig import EnvVar
+
 
 @pytest.mark.parametrize("attribute, value", [
     ('ATTRIBUTE_STR', 'default_str'),
@@ -56,11 +58,16 @@ def test_cant_parse(config, mock_env):
 
 
 def test_default_not_parsed(config):
-    @config.parse(bool)
-    def stay_out():
+    parsers = EnvVar.parsers
+
+    def trap(*_, **__):
         assert False
 
+    EnvVar.parsers = {k: trap for k, v in parsers.items()}
+
     print(config.ATTRIBUTE_BOOL)
+
+    EnvVar.parsers = parsers
 
 
 def test_cant_access_undefined_var(config, mock_args, mock_env):
