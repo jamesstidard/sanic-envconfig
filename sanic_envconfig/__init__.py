@@ -3,7 +3,7 @@ import sys
 
 from typing import get_type_hints, Type
 
-__version__ = '1.1.2'
+__version__ = '1.2.0'
 
 
 class EnvVar:
@@ -25,10 +25,12 @@ class EnvVar:
 
         try:
             index = sys.argv.index(cli_name)
-            value = sys.argv[index + 1]
-        except (ValueError, IndexError):
+        except ValueError:
             pass
         else:
+            # safely overflow argv with % len - to handle options with no value
+            index = (index+1) % len(sys.argv)
+            value = sys.argv[index]
             return self.__parse(value)
 
         try:
@@ -87,10 +89,10 @@ class EnvConfig(metaclass=EnvConfigMeta):
     def parse(type: Type):
         """
         Register a parser for a attribute type.
-        
+
         Parsers will be used to parse `str` type objects from either
         the commandline arguments or environment variables.
-    
+
         Args:
             type: the type the decorated function will be responsible
                 for parsing a environment variable to.
@@ -105,7 +107,13 @@ class EnvConfig(metaclass=EnvConfigMeta):
 
 @EnvConfig.parse(bool)
 def parse_bool(value: str) -> bool:
-    return value.lower() in ('true', 'y', 'yes', '1', 'on')
+    return value.lower() not in (
+        '0',
+        'false',
+        'n',
+        'no',
+        'off',
+    )
 
 
 @EnvConfig.parse(int)

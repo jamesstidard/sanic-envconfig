@@ -91,6 +91,14 @@ def test_args_quoted(config, mock_args):
     assert config.ATTRIBUTE_STR == something_in_quotes
 
 
+def test_args_bool_flag_no_args(config, mock_args, mock_env):
+    config.ATTRIBUTE_BOOL = True
+    mock_args(f'--attribute-bool')
+    assert config.ATTRIBUTE_BOOL is True
+    mock_args(f'--attribute-bool --other-thing')
+    assert config.ATTRIBUTE_BOOL is True
+
+
 def test_normal_property_set(config, mock_env, sentinel):
     mock_env({'normal': 'oh no'})
     config.normal = sentinel
