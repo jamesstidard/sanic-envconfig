@@ -7,9 +7,16 @@ verify_ssl = true
 pytest = "*"
 pytest-mock = "*"
 twine = "*"
+flake8-bugbear = "*"
+flake8-black = "*"
+flake8 = "*"
+black = "*"
 
 [packages]
-sanic-envconfig = {editable = true,file = "file:///home/james/Development/James-Stidard/sanic-envconfig"}
+sanic-envconfig = {editable = true,path = "."}
 
 [requires]
 python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true

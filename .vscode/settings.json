@@ -1,0 +1,17 @@
+{
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": false,
+    "python.linting.enabled": true,
+    "python.pythonPath": "/Users/james/.local/share/virtualenvs/sanic-envconfig-xWiWnh5o/bin/python",
+    "python.testing.pyTestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pyTestEnabled": true,
+    "cSpell.words": [
+        "envconfig",
+        "isfile",
+        "sanic"
+    ]
+}

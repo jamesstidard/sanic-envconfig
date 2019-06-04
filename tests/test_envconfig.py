@@ -1,6 +1,23 @@
+import os
+import json
+import tempfile
+
+from contextlib import contextmanager
+
 import pytest
 
-from sanic_envconfig import EnvVar
+from sanic_envconfig.envconfig import EnvVar
+from sanic_envconfig.utils import load_flat_json
+
+
+@contextmanager
+def cwd(path):
+    previous = os.getcwd()
+    os.chdir(path)
+    try:
+        yield
+    finally:
+        os.chdir(previous)
 
 
 @pytest.mark.parametrize("attribute, value", [
@@ -127,3 +144,36 @@ def test_no_prefixed_env_used(prefix_config, attribute, default, new, mock_env):
     assert getattr(prefix_config, attribute) == default
     mock_env({attribute: str(new)})
     assert getattr(prefix_config, attribute) == default
+
+
+def test_json_flatern():
+    input_ = {
+        "a": 1,
+        "b": {
+            "c": 2,
+            "d": 3
+        }
+    }
+
+    expected = {
+        "a": 1,
+        "b__c": 2,
+        "b__d": 3
+    }
+
+    with tempfile.TemporaryDirectory() as td:
+        with cwd(td):
+            with open('input.json', 'w+') as fp:
+                json.dump(input_, fp)
+
+            assert load_flat_json('input.json') == expected
+
+
+def test_broken_json():
+    with tempfile.TemporaryDirectory() as td:
+        with cwd(td):
+            with open('input.json', 'w+') as fp:
+                fp.write('{"fsdfd,')
+
+            with pytest.raises(json.decoder.JSONDecodeError):
+                load_flat_json('input.json')
