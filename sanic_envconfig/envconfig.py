@@ -23,6 +23,7 @@ class EnvVar:
     def __get__(self, instance, owner):
         cli_name = self.name.replace("_", "-").lower()
         env_name = f"{self.prefix}{self.name[2:]}"
+        cfg_name = self.name.lower()
 
         try:
             index = sys.argv.index(cli_name)
@@ -42,7 +43,7 @@ class EnvVar:
             return self.__parse(value)
 
         try:
-            value = self.config[self.name]
+            value = self.config[cfg_name]
         except KeyError:
             pass
         else:
