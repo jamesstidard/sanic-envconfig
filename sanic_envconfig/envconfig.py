@@ -23,7 +23,7 @@ class EnvVar:
     def __get__(self, instance, owner):
         cli_name = self.name.replace("_", "-").lower()
         env_name = f"{self.prefix}{self.name[2:]}"
-        cfg_name = self.name.lower()
+        cfg_name = self.name[2:].lower()
 
         try:
             index = sys.argv.index(cli_name)
