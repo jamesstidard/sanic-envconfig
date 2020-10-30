@@ -101,6 +101,13 @@ class EnvConfigMeta(type):
 
 
 class EnvConfig(metaclass=EnvConfigMeta):
+
+    def __init__(self):
+        # freeze
+        self.__dict__.update(
+            {k: getattr(self.__class__, k) for k in vars(self.__class__) if k.isupper()}
+        )
+
     @staticmethod
     def parse(type: Type):
         """

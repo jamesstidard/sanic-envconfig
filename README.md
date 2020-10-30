@@ -45,8 +45,10 @@ class Config(EnvConfig):
     DB_URL: str = None
     WORKERS: int = 1
 
+config = Config()
+
 app = Sanic(__name__)
-app.config.from_object(Config)
+app.update_config(Config)
 
 app.config.DEBUG  # False
 app.config.DB_URL  # 'postgresql://localhost:5433/commandline'
